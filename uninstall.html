@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Unsere Gelder Tools</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Christian Haider" />
+  </head>
+
+  <body>
+  <p>Once you start developing your own app / lib / backend, you should
+      remove all unnecessary parts left from the sample app.</p>
+  <ul style="width: 40ex">
+      <li>You can choose to polyfill less or not at all in Gruntfile.js / index.html,
+          as a consequence polyfilling dependencies can be uninstalled.
+      </li>
+      <li>In case you don't need webapp part at all, you can remove
+          deploy.js (and its appearance in testing.js), UnsereGelderTools package,
+          webapp-specific dependencies in package.json
+          (modules silk, domite, contrib-web and contrib-jquery),
+          remove "start the app" call in index.html
+          and remove webapp-specific parts in Gruntfile.js.
+      </li>
+      <li>You should keep index.html (you need it to develop),
+          but in cleaned form (see below).</li>
+      <li>In index.html <code>&lt;body&gt;</code> tag,
+          everything should be removed, except
+          the <code>&lt;script&gt;</code> tag
+          that initializes Amber and starts your app;
+          then you can add elements specific to your own webapp
+          to the page (or leave it bare if case in previous item happened).</li>
+      <li>In case you will develop the webapp part,
+          you will probably only use one set of libraries presented
+          (there are more options so you can see and choose).
+          So either you keep silk which depends on domite,
+          or you keep contrib-web which depends on contrib-jquery.
+          Your Gruntfile.js may contain references
+          to these modules in <code>libraries</code>
+          field(s). Fix those fields to not contain removed libraries.</li>
+      <li>In case you are developing an Amber library (eg. not the app),
+          you'll probably end up not needing any of the aformentioned libraries
+          (depends on how UI-heavy your library are),
+          and you likely can remove the intro UnsereGelderTools class
+          and the "start the app" call in index.html.
+      </li>
+      <li>In case you don't need the lambda / backend part at all,
+          you can remove lambda.js (and its appearance in testing.js),
+          UnsereGelderTools-Backend package, lambda directory
+          and remove lambda-specific parts of Gruntfile.js.
+      </li>
+      <li>These introductory files: parts.html and uninstall.html can be deleted.</li>
+  </ul>
+  <p>As the last step, make sure the dependency tree is in a correct state
+      by recreating it: run <code>npm run reset</code> from your CLI.</p>
+  </body>
+
+</html>
