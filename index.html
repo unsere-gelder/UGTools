@@ -9,20 +9,6 @@
 </head>
 
 <body>
-<!-- EXAMPLE APP START -->
-<p>This is a sample app. It contains some
-    <a href="parts.html">batteries included</a>
-    and should be
-    <a href="uninstall.html">cleaned up</a>
-    once you start developing your own app / lib.</p>
-<button id="amber-with">Hello from TagBrush >> with:</button>
-<button id="silk-tag">Hello from Silk >> TAG:</button>
-<button id="jquery-append">Hello from jQuery append</button>
-<button id="console-log">Log into JS console</button>
-<button id="timeout-alert">Remind me in five seconds</button>
-<button id="lambda-status">Inspect status of backend</button>
-<ol id="output-list"></ol>
-<!-- EXAMPLE APP END -->
 <script type='text/javascript'>
     var global = typeof global === "undefined" ? window : global || window;
     new Promise(function (resolve, reject) {
@@ -32,9 +18,6 @@
             //used for all new packages in IDE
             'transport.defaultAmdNamespace': "amber-unseregeldertools"
         }).then(function () {
-            require(["amber-ide-starter-dialog"], function (dlg) {
-                dlg.start();
-            });
             amber.globals.UnsereGelderTools._start();
         });
     });

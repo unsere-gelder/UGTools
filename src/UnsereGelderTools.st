@@ -6,58 +6,23 @@ Object subclass: #UnsereGelderTools
 
 !UnsereGelderTools methodsFor: 'action'!
 
-alert: aString after: aNumberOfMilliseconds
-	[ Terminal alert: aString ] valueWithTimeout: aNumberOfMilliseconds
-!
-
-doAmberWith
-	'#output-list' asBrush with: [ :html | html li: 'Amber Web #with: added me!!' ]
-!
-
-doConsoleLog
-	| greeting target |
-	greeting := 'Hello'.
-	target := 'world'.
-	console log: #{ #greeting -> greeting. #target -> target. #callback -> [ console log: greeting, ', ', target, '!!' ] }
-!
-
-doInspectStatus
-	(self getApi: '/status')
-		then: {#json. #inspect}
-		catch: [ :err | Terminal alert: err ]
-!
-
-doJQueryAppend
-	'#output-list' asJQuery append: '<li>jQuery append added me!!</li>'
-!
-
-doSilkTAG
-	'#output-list' asSilk LI: 'Silk TAG: added me!!'
+openHelios
+	<inlineJS: 'require(''amber/helpers'').popupHelios()'>
 ! !
 
 !UnsereGelderTools methodsFor: 'backend'!
 
-cities
-	"UnsereGelderTools new cities"
+getCities
+	"UnsereGelderTools new getCities"
 	
 	(Platform fetch: 'http://localhost:63036/cityNames') then: [:response | 
 		response json then: [:json | 
 			self showCities: json]]
 !
 
-endpoint
-	"Return something like 'https://<char mess>.execute-api.eu-central-1.amazonaws.com/default'"
-	^ self error: 'Not yet implemented'
-!
-
-getApi: path
-	^ Platform fetch: self endpoint, path
-!
-
 showCities: someCities
-	| body list |
-	body := Silk new.
-	list := body UL.
+	| list |
+	list := '#CityList' asSilk.
 	someCities do: [:cityname |
 		list LI: cityname]
 ! !
@@ -65,12 +30,14 @@ showCities: someCities
 !UnsereGelderTools methodsFor: 'starting'!
 
 augmentPage
-    '#lambda-status' asSilk on: #click bind: [ self doInspectStatus ].
-	'#console-log' asSilk on: #click bind: [ self doConsoleLog ].
-	'#timeout-alert' asSilk on: #click bind: [ self alert: 'REMINDER!!' after: 5000 ].
-	'#amber-with' asBrush onClick: [ self doAmberWith ].
-	'#silk-tag' asSilk on: #click bind: [ self doSilkTAG ].
-	'#jquery-append' asJQuery click: [ self doJQueryAppend ]
+	| body citiesButton heliosButton |
+	citiesButton := (Silk BUTTON: 'get Cities') on: #click bind: [ self getCities ].
+	heliosButton := (Silk BUTTON: 'Helios') on: #click bind: [ self openHelios ].
+	body := Silk new.
+	body reset.
+	body << citiesButton.
+	body << heliosButton.
+	body UL: {'id' -> 'CityList'}
 ! !
 
 !UnsereGelderTools class methodsFor: 'starting'!

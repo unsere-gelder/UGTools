@@ -15,7 +15,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['amdconfig:app', 'requirejs:test_runner', 'exec:test_runner', 'clean:test_runner']);
     grunt.registerTask('devel', ['amdconfig:app', 'requirejs:devel']);
     grunt.registerTask('deploy', ['amdconfig:app', 'requirejs:deploy']);
-    grunt.registerTask('deploy:lambda', ['amdconfig:app', 'requirejs:deploy_lambda']);
 
     var id = function (x) {
         return x
@@ -29,25 +28,6 @@ module.exports = function (grunt) {
         return new Promise(function (resolve, reject) {
             require(["app/main"], resolve, reject);
         });
-    };
-
-    var lambdaExports = function (amberPromised) {
-        return function (className) {
-            var worker, workerPromise = amberPromised.then(function (amber) {
-                worker = amber.globals[className]._new();
-            });
-            return function (selector) {
-                var jsSelector, jsSelectorPromise = amberPromised.then(function (amber) {
-                    jsSelector = amber.api.st2js(selector);
-                });
-                var readyPromise = Promise.all([workerPromise, jsSelectorPromise]);
-                return function (event, context) {
-                    return readyPromise.then(function () {
-                        return worker[jsSelector](event, context);
-                    });
-                };
-            };
-        };
     };
 
     // Project configuration.
@@ -112,30 +92,6 @@ module.exports = function (grunt) {
                     include: ['config', 'node_modules/requirejs/require', 'app', 'app/main'],
                     exclude: ['devel', 'amber/core/Platform-Browser'],
                     out: "the.js"
-                }
-            },
-            deploy_lambda: {
-                options: {
-                    rawText: {
-                        "helios/index": "",
-                        "app": mkDefine(["app/promise"], lambdaExports),
-                        "app/promise": mkDefine(["require"], cbRequireAndPromiseMain),
-                        "app/main": mkDefine(["lambda", "amber/core/Platform-Node"], function (amber) {
-                            return amber.initialize().then(function () {
-                                return amber;
-                            });
-                        })
-                    },
-                    pragmas: {
-                        excludeIdeData: true,
-                        excludeDebugContexts: true
-                    },
-                    include: ['app'],
-                    findNestedDependencies: true,
-                    exclude: ['helios/index'],
-                    wrap: {start: helpers.nodeWrapper.start, end: "return require('app');" + helpers.nodeWrapper.end},
-                    optimize: "uglify2",
-                    out: "lambda/the.js"
                 }
             },
             test_runner: {

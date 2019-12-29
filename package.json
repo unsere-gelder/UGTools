@@ -3,22 +3,22 @@
   "title": "Unsere Gelder Tools",
   "description": "Web tools for manipulating data\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D budget data",
   "version": "0.1.0",
-  "homepage": "https://github.com/Christian/UGTools",
+  "homepage": "https://github.com/unsere-gelder/UGTools",
   "author": {
     "name": "Christian Haider",
-    "email": "ChristianHaider@users.noreply.github.com"
+    "email": "christian@unsere-gelder.de"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Christian/UGTools.git"
+    "url": "git://github.com/unsere-gelder/UGTools.git"
   },
   "bugs": {
-    "url": "https://github.com/Christian/UGTools/issues"
+    "url": "https://github.com/unsere-gelder/UGTools/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/Christian/UGTools/blob/master/LICENSE-MIT"
+      "url": "https://github.com/unsere-gelder/UGTools/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {

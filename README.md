@@ -1,6 +1,6 @@
 # Unsere Gelder Tools
 
-Web tools for manipulating data[D[D[D[D[D budget data
+Web development tools for manipulating budget data
 
 ## Getting Started
 
