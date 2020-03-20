@@ -47,7 +47,7 @@ module.exports = function (grunt) {
             },
             all: {
                 src: [
-                    'src/UnsereGelderTools.st', 'src/UnsereGelderTools-Backend.st', // list all sources in dependency order
+                    'src/UnsereGelderTools.st', // list all sources in dependency order
                     'src/UnsereGelderTools-Tests.st' // list all tests in dependency order
                 ],
                 amd_namespace: 'amber-unseregeldertools',
